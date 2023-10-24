@@ -1,5 +1,7 @@
 const {StatusCodes} = require("http-status-codes");
+const path = require("path");
 const {db} = require("../models");
+const {BadRequestError} = require("../errors/errors");
 
 const Product = db.products;
 const sequelize = db.sequelize;
@@ -14,8 +16,25 @@ const getAllProducts = async (req, res) => {
 }
 
 const uploadProductImage = async (req, res) => {
-    console.log(req);
-    res.send("upload product image");
+    // Check if file exists.
+    if (!req.files) {
+        throw new BadRequestError("No file uploaded");
+    }
+    const productImage = req.files.image;
+    // Check the format.
+    if (!productImage.mimetype.startsWith("image")) {
+        throw new BadRequestError("Please upload an image");
+    }
+    // Check the size of the image.
+    const maxSize = 1024 * 1024;
+    if (productImage.size > maxSize) {
+        throw new BadRequestError("Please upload an image smaller than 1MB");
+    }
+    const imagePath = path.join(__dirname, "../uploads/"+`${productImage.name}`);
+
+    // move image to uploads directory.
+    await productImage.mv(imagePath);
+    res.status(StatusCodes.OK).json({image: "Succes"});
 }
 
 module.exports = {createProduct, getAllProducts, uploadProductImage};

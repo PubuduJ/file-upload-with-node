@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 require("dotenv").config();
 require("express-async-errors");
 const {db} = require("./models");
@@ -12,6 +13,7 @@ const app = express();
 // middleware
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload());
 
 // routes
 app.use("/api/v1/products", products);
