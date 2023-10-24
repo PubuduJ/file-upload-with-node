@@ -5,7 +5,8 @@ const Product = db.products;
 const sequelize = db.sequelize;
 
 const createProduct = async (req, res) => {
-    res.send("create product");
+    const product = await Product.create(req.body);
+    return res.status(StatusCodes.CREATED).json(product);
 }
 
 const getAllProducts = async (req, res) => {
@@ -13,6 +14,7 @@ const getAllProducts = async (req, res) => {
 }
 
 const uploadProductImage = async (req, res) => {
+    console.log(req);
     res.send("upload product image");
 }
 
