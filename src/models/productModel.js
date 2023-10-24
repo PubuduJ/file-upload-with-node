@@ -26,7 +26,7 @@ const productModel = (sequelize, DataType) => {
             }
         },
         price: {
-            type: DataType.DECIMAL,
+            type: DataType.DECIMAL(10,2),
             allowNull: false,
             field: "price",
             validate: {
