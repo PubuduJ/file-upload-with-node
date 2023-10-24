@@ -1,5 +1,6 @@
 const {StatusCodes} = require("http-status-codes");
-const path = require("path");
+const cloudinary = require("cloudinary").v2;
+const fs = require("fs");
 const {db} = require("../models");
 const {BadRequestError} = require("../errors/errors");
 
@@ -25,16 +26,19 @@ const uploadProductImage = async (req, res) => {
     if (!productImage.mimetype.startsWith("image")) {
         throw new BadRequestError("Please upload an image");
     }
-    // Check the size of the image.
+    // Check the size of the image ( < 1MB).
     const maxSize = 1024 * 1024;
     if (productImage.size > maxSize) {
         throw new BadRequestError("Please upload an image smaller than 1MB");
     }
-    const imagePath = path.join(__dirname, "../uploads/"+`${productImage.name}`);
-
-    // move image to uploads directory.
-    await productImage.mv(imagePath);
-    res.status(StatusCodes.OK).json({image: "Succes"});
+    // upload the image to cloudinary and get the secure url.
+    const result = await cloudinary.uploader.upload(req.files.image.tempFilePath, {
+        use_filename: true,
+        folder: "file-upload"
+    })
+    // once upload file to the cloudinary, remove the file from tmp directory.
+    fs.unlinkSync(req.files.image.tempFilePath);
+    return res.status(StatusCodes.OK).json({imageURL: result.secure_url});
 }
 
 module.exports = {createProduct, getAllProducts, uploadProductImage};
