@@ -6,6 +6,8 @@ const {db} = require("./models");
 const notFoundMiddleware = require("./middlewares/notFoundMiddleware");
 const errorHandlerMiddleware = require("./middlewares/errorHandlerMiddleware");
 
+
+
 const app = express();
 
 // middleware
