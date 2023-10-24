@@ -12,4 +12,8 @@ const getAllProducts = async (req, res) => {
     res.send("list of products");
 }
 
-module.exports = {createProduct, getAllProducts};
+const uploadProductImage = async (req, res) => {
+    res.send("upload product image");
+}
+
+module.exports = {createProduct, getAllProducts, uploadProductImage};
