@@ -9,6 +9,7 @@ const productModel = (sequelize, DataType) => {
         name: {
             type: DataType.STRING(100),
             allowNull: false,
+            unique: true,
             field: "name",
             validate: {
                 notEmpty: {

@@ -7,4 +7,11 @@ class BadRequestError extends Error {
   }
 }
 
-module.exports = {BadRequestError};
+class ConflictError extends Error {
+  constructor(message) {
+    super(message)
+    this.statusCode = StatusCodes.CONFLICT
+  }
+}
+
+module.exports = {BadRequestError, ConflictError};

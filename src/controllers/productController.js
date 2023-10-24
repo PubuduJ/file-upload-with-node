@@ -2,18 +2,30 @@ const {StatusCodes} = require("http-status-codes");
 const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
 const {db} = require("../models");
-const {BadRequestError} = require("../errors/errors");
+const {BadRequestError, ConflictError} = require("../errors/errors");
 
 const Product = db.products;
 const sequelize = db.sequelize;
 
 const createProduct = async (req, res) => {
-    const product = await Product.create(req.body);
-    return res.status(StatusCodes.CREATED).json(product);
+    const t = await sequelize.transaction();
+    try {
+        const availability = await Product.findOne({where: {name: req.body.name}});
+        if (!availability) {
+            const product = await Product.create(req.body);
+            await t.commit();
+            return res.status(StatusCodes.CREATED).json(product);
+        }
+        throw new ConflictError("Product already exist in the database");
+    } catch (error) {
+        await t.rollback();
+        throw error;
+    }
 }
 
 const getAllProducts = async (req, res) => {
-    res.send("list of products");
+    const allProducts = await Product.findAll();
+    return res.status(StatusCodes.OK).json(allProducts);
 }
 
 const uploadProductImage = async (req, res) => {
