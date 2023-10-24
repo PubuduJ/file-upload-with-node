@@ -5,7 +5,8 @@ require("express-async-errors");
 const {db} = require("./models");
 const notFoundMiddleware = require("./middlewares/notFoundMiddleware");
 const errorHandlerMiddleware = require("./middlewares/errorHandlerMiddleware");
-
+const products = require("./routes/productRouter");
+const uploads = require("./routes/uploadRouter");
 
 
 const app = express();
@@ -13,6 +14,10 @@ const app = express();
 // middleware
 app.use(cors());
 app.use(express.json());
+
+// routes
+app.use("/api/v1/products", products);
+app.use("/api/v1/uploads", uploads);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
