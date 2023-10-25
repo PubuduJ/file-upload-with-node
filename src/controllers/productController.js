@@ -12,7 +12,7 @@ const createProduct = async (req, res) => {
     try {
         const availability = await Product.findOne({where: {name: req.body.name}});
         if (!availability) {
-            const product = await Product.create(req.body);
+            const product = await Product.create(req.body, {transaction: t});
             await t.commit();
             return res.status(StatusCodes.CREATED).json(product);
         }
