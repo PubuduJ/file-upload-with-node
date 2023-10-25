@@ -9,6 +9,10 @@ In order to make the backend working, you must **create an account** in the clou
 account's **CLOUD_NAME, CLOUD_API_KEY, and CLOUD_API_SECRET** into the appropriate columns in the `.env` file.
 Ensure that you create a **file-upload** folder in your cloudinary account. Images (Files) will be uploaded to the account's **file-upload folder.**
 
+More information on the exposed web services with example test cases can be found in the below API documentation.
+
+- [**Products API documentation**](https://documenter.getpostman.com/view/25306703/2s9YRDzWCx)
+
 ## Used Technologies
 
 - Node.js
