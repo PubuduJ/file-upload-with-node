@@ -1,12 +1,13 @@
 # File Upload with Node.js <img src="assets/logo.png" alt="drawing" width="27px"/>
 
 This project uses the **Node.js express backend** to demonstrate how to use the **file upload functionality.** 
-The [**Cloudinary**](https://cloudinary.com/) repository is used as the file upload cloud repository. The files will be uploaded to the cloudinary repository 
+The [**Cloudinary**](https://cloudinary.com/) repository is used as the file uploading cloud repository. The files will be uploaded to the cloudinary repository 
 upon receiving an upload request to the node.js backend. The backend will then save the **secure url path for that file** in 
 the database along with the other information of that file.
 
 In order to make the backend working, you must **create an account** in the cloudinary repository and copy and paste your 
 account's **CLOUD_NAME, CLOUD_API_KEY, and CLOUD_API_SECRET** into the appropriate columns in the `.env` file.
+Ensure that you create a **file-upload** folder in your cloudinary account. Images (Files) will be uploaded to the account's **file-upload folder.**
 
 ## Used Technologies
 
